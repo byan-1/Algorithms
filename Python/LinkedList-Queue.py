@@ -15,16 +15,22 @@ class Node:
     def setNext(self,newnext):
         self.next = newnext
 
-class Stack:
+class Queue:
     def __init__(self):
         self.head = None
+        self.tail = None
 
-    def push(self,item):
+    def enqueue(self,item):
         temp = Node(item)
-        temp.setNext(self.head)
-        self.head = temp
+        if self.head == None:
+            self.head = temp
+            self.tail = temp
+            self.head.next = None
+        else:
+            self.tail.next = temp
+            self.tail = temp
 
-    def pop(self):
+    def dequeue(self):
         current = self.head
         previous = None
         if current == None:
@@ -51,14 +57,17 @@ class Stack:
         current = self.head
         s = ""
         while current != None:
-            s += str(current.getData()) + "\n"
+            if current.getNext() != None:
+                s += str(current.getData()) + "<--"
+            else:
+                s += str(current.getData())
             current = current.getNext()
         return s
 
-s = Stack()
-s.push(5)
-s.push(7)
-s.push(3)
-print(s)
-s.pop()
-print(s)
+q = Queue()
+q.enqueue(5)
+q.enqueue(7)
+q.enqueue(3)
+print(q)
+q.dequeue()
+print(q)

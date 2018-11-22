@@ -18,6 +18,21 @@ def selectionSort(l):
         index += 1
     return l
 
+def selectionRecursive(l, start, end):
+    if start >= end:
+        return
+    b = start
+    r = end
+    min = l[start]
+    minindex = start
+    while(b <= end):
+        if min > l[b]:
+            min = l[b]
+            minindex = b
+        b += 1
+    l[start], l[minindex] = l[minindex], l[start]
+    selectionRecursive(l, start + 1, end)
+
 def insertionSort(l):
     for i in range(1, len(l) - 1):
         current =  l[i]
@@ -110,5 +125,5 @@ def quickSort(l, first, last):
     quickSort(l, rightmark + 1, last)
 
 l = [7, 2, 1, 5, 3, 5, 4]
-quickSort(l, 0, len(l) - 1)
+insertionRecursive(l, 0, len(l) - 1)
 print(l)
