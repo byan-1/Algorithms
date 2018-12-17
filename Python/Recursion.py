@@ -18,6 +18,6 @@ def palindromeRecursive(s):
         return s[0] == s[-1] and palindromeRecursive(s[1:-1])
 
 
-s = "asdf"
+s = "kayak"
 r = reverseStringRecursive(s)
-print(r)
+print(palindromeRecursive(s))

@@ -124,6 +124,6 @@ def quickSort(l, first, last):
     quickSort(l, first, rightmark - 1)
     quickSort(l, rightmark + 1, last)
 
-l = [7, 2, 1, 5, 3, 5, 4]
-insertionRecursive(l, 0, len(l) - 1)
+l = [7, 2, 1, 5, 3, 5, 4, 9]
+mergeSort2(l)
 print(l)

@@ -3,18 +3,6 @@ class Node:
         self.data = initdata
         self.next = None
 
-    def getData(self):
-        return self.data
-
-    def getNext(self):
-        return self.next
-
-    def setData(self,newdata):
-        self.data = newdata
-
-    def setNext(self,newnext):
-        self.next = newnext
-
 class LinkedList:
     def __init__(self):
         self.head = None
@@ -24,25 +12,27 @@ class LinkedList:
 
     def add(self,item):
         temp = Node(item)
-        temp.setNext(self.head)
+        temp.next = self.head
         self.head = temp
 
     def size(self):
         current = self.head
+        if (self.head == None):
+            return 0
         count = 0
         while current != None:
             count = count + 1
-            current = current.getNext()
+            current = current.next
         return count
 
     def search(self,item):
         current = self.head
         found = False
         while current != None and not found:
-            if current.getData() == item:
+            if current.data == item:
                 found = True
             else:
-                current = current.getNext()
+                current = current.next
         return found
 
     def remove(self,item):
@@ -50,26 +40,26 @@ class LinkedList:
         previous = None
         found = False
         while not found:
-            if current.getData() == item:
+            if current.data == item:
                 found = True
             else:
                 previous = current
-                current = current.getNext()
+                current = current.next
 
         if previous == None:
-            self.head = current.getNext()
+            self.head = current.next
         else:
-            previous.setNext(current.getNext())
+            previous.setNext(current.next)
 
     def __str__(self):
         current = self.head
         s = ""
         while current != None:
-            if current.getNext() != None:
-                s += str(current.getData()) + "-->"
+            if current.next != None:
+                s += str(current.data) + "-->"
             else:
-                s += str(current.getData())
-            current = current.getNext()
+                s += str(current.data)
+            current = current.next
         return s
 
     def append(self, item):
@@ -77,73 +67,88 @@ class LinkedList:
         if current == None:
             self.head = Node(item)
         else:
-            while current.getNext() != None:
-                current = current.getNext()
-            current.setNext(Node(item))
+            while current.next != None:
+                current = current.next
+            current.next = Node(item)
 
     def insert(self, item, i):
         current = self.head
         previous = None
         count = 0
-        if (i == 0):
+        if i == 0:
             temp = Node(item)
-            temp.setNext(self.head)
+            temp.next = self.head
             self.head = temp
         else:
             while (count < i and current != None):
                 previous = current
-                current = current.getNext()
+                current = current.next
                 count += 1
-            previous.setNext(Node(item))
-            previous.getNext().setNext(current)
+            previous.next = Node(item)
+            previous.next.next = current.next
 
     def index(self, i):
         current = self.head
         count = 0
         while (count < i and current != None):
-            current = current.getNext()
+            current = current.next
             count += 1
-        return current.getData()
+        return current.data
 
     def pop(self):
         current = self.head
         previous = None
         if current == None:
             print("List is empty")
-        elif current.getNext() == None:
+        elif current.next == None:
             self.head = None
-            return current.getData()
+            return current.data
         else:
-            while current.getNext() != None:
+            while current.next != None:
                 previous = current
-                current = current.getNext()
+                current = current.next
             previous.setNext(None)
-            return current.getData()
+            return current.next
 
     def slice(self, start, stop):
         count = 0
         current = self.head
         self.length = len
         while(count < start):
-            current = current.getNext()
+            current = current.next
             count += 1
         start = current
 
         while(count < stop):
-            current = current.getNext()
+            current = current.next
             count += 1
-        current.setNext(None)
+        current.next = None
         l = LinkedList()
         l.head = start
         return l
 
-if(__name__ == '__main__'):
-    l = LinkedList()
-    l.insert(5,0)
-    l.append(15)
-    l.add(5)
-    l.add(1)
-    l.append(0)
-    l.insert(3,3)
-    print(l)
-    print(l.slice(2,4))
+    def reverse(self):
+        if self.head.next.next == None:
+            temp = self.head
+            self.head = self.head.next
+            self.head.next = temp
+            return self.head
+        else:
+            current = self.head
+            self.head = current.next
+            self.reverse()
+            temp = current.next
+            temp.next = current
+            current.next = None
+
+l = LinkedList()
+l.insert(5,0)
+l.append(15)
+l.add(5)
+l.add(1)
+l.append(0)
+l.insert(3,3)
+print(l)
+print(l.size())
+l.reverse()
+print(l)
