@@ -150,12 +150,24 @@ class Tree:
             return node.data
 
     def isBST(self):
-        return self._isBST(self.root, self.GetMin() - 1, self.GetMax() + 1)
+        #return self._isBST(self.root, self.GetMin() - 1, self.GetMax() + 1)
+        return self.__isBST(self.root)
 
     def _isBST(self, node, min, max):
         if node is None:
             return True
         return node.data > min and node.data < max and self._isBST(node.left, min ,node.data) and self._isBST(node.right, node.data, max)
+
+    def __isBST(self, node):
+        if node is None:
+            return True
+        if node.left is not None and node.left.data > node.data:
+            return False
+        if node.right is not None and node.right.data < node.data:
+            return False
+        if not self.__isBST(node.left) or not self.__isBST(node.right):
+            return False
+        return True
 
     def _GetMinNode(self, node):
         if node is None:
@@ -236,6 +248,7 @@ t.insert(12)
 t.insert(2)
 t.insert(1)
 t.insert(9)
+t.root.right.right.data = 0
 t.PrintLevelOrder()
 print('')
-print(t.getSucc(9))
+print(t.isBST())
