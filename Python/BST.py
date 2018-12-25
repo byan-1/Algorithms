@@ -20,6 +20,8 @@ class Queue:
         temp = self.list[0]
         del self.list[0]
         return temp
+    def peek(self):
+        return self.list[0]
 
     def __len__(self):
         return len(self.list)
@@ -236,8 +238,44 @@ def NodeCountR(node):
     else:
         return 1 + NodeCountR(node.left) + NodeCountR(node.right)
 
+def isequal(rootnode1, rootnode2):
+    if rootnode1 == None and rootnode2 == None:
+        return True
+    elif rootnode1 != None and rootnode2 != None:
+        return rootnode1.data == rootnode2.data and isequal(rootnode1.left, rootnode2.left) and isequal (rootnode1.right, rootnode2.right)
+    else:
+        return False
+
+def tree_to_list(rootnode):
+    if rootnode == None:
+        return
+
+    q = Queue()
+    q.enqueue(rootnode)
+    while (len(q) > 0):
+        cur = q.dequeue()
+        if cur.left is not None:
+            q.enqueue(cur.left)
+        if cur.right is not None:
+            q.enqueue(cur.right)
+        if len(q) > 0:
+            cur.right = q.peek()
+        else:
+            cur.right = None
+
+def printlist(headnode):
+    current = headnode
+    s = ""
+    while current != None:
+        if current.right != None:
+            s += str(current.data) + "-->"
+        else:
+            s += str(current.data)
+        current = current.right
+    return s
+
+
 t = Tree()
-t.PrintLevelOrder()
 t.insert(6)
 t.insert(4)
 t.insert(5)
@@ -248,7 +286,8 @@ t.insert(12)
 t.insert(2)
 t.insert(1)
 t.insert(9)
-t.root.right.right.data = 0
 t.PrintLevelOrder()
 print('')
-print(t.isBST())
+print(printlist(t.root))
+tree_to_list(t.root)
+print(printlist(t.root))

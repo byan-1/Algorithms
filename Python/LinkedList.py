@@ -10,7 +10,7 @@ class LinkedList:
     def isEmpty(self):
         return self.head == None
 
-    def add(self,item):
+    def insertHead(self, item):
         temp = Node(item)
         temp.next = self.head
         self.head = temp
@@ -49,7 +49,7 @@ class LinkedList:
         if previous == None:
             self.head = current.next
         else:
-            previous.setNext(current.next)
+            previous.next = current.next
 
     def __str__(self):
         current = self.head
@@ -62,7 +62,7 @@ class LinkedList:
             current = current.next
         return s
 
-    def append(self, item):
+    def insertTail(self, item):
         current = self.head
         if current == None:
             self.head = Node(item)
@@ -141,14 +141,49 @@ class LinkedList:
             temp.next = current
             current.next = None
 
+    def reverseNonRec(self):
+        if self.head is None or self.head.next is None:
+            return
+        prev = self.head
+        cur = self.head.next
+        next = self.head.next.next
+        prev.next = None
+        while next.next is not None:
+            cur.next = prev
+            prev = cur
+            cur = next
+            next = next.next
+
+        next.next = cur
+        self.head = next
+        cur.next = prev
+
+#alternatively, middle node jumps once per loop, another node jumps twice. Stop loop when the other node reaches the end.
+#or only traverse middle on odd numbers
+def middleNode(list):
+    size = (list.size()-1)//2
+    count = 0
+    current = list.head
+    while count < size:
+        current = current.next
+        count += 1
+    return current
+
+
 l = LinkedList()
 l.insert(5,0)
-l.append(15)
-l.add(5)
-l.add(1)
-l.append(0)
+l.insertTail(15)
+l.insertHead(10)
+print(l)
+l.reverseNonRec()
+print(l)
+l.insertHead(1)
+l.insertTail(0)
 l.insert(3,3)
-print(l)
-print(l.size())
-l.reverse()
-print(l)
+l.insertTail(12)
+l.insertTail(9)
+l.insert(4,0)
+l.remove(5)
+l.insertTail(3)
+# print(l)
+# print(l)

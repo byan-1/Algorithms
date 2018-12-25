@@ -104,18 +104,15 @@ def heap_sort(arr):
         i -= 1
         sift_down(arr, 0, i)
 
-h = MaxHeap()
-h.insert(5)
-h.insert(7)
-h.insert(3)
-h.insert(12)
-h.insert(2)
-h.insert(1)
-h.insert(15)
-h.insert(9)
-h.print()
-print('')
-print('')
-j = [1 ,2 ,6 ,8 ,3 ,7, 9, 12, 4, 10]
-heap_sort(j)
-print(j)
+#Merge sorted sublists into a sorted list in O(nlogk) time, where n is the size of the sublist and k is the number of sublists.
+def mergeSorted(l):
+    
+
+
+
+
+
+
+
+
+
