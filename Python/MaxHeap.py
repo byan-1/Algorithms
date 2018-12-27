@@ -104,11 +104,6 @@ def heap_sort(arr):
         i -= 1
         sift_down(arr, 0, i)
 
-#Merge sorted sublists into a sorted list in O(nlogk) time, where n is the size of the sublist and k is the number of sublists.
-def mergeSorted(l):
-    
-
-
 
 
 

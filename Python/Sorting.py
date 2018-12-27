@@ -1,3 +1,5 @@
+from random import randint
+
 def bubbleSort(l):
     for i in range(0, len(l) - 1):
         for j in range(0, len(l)-1):
@@ -73,6 +75,7 @@ def mergeSort(l):
                 lindex += 1
         return s
 
+
 def mergeSort2(l):
     if len(l) > 1:
         middle = len(l)//2
@@ -103,27 +106,26 @@ def mergeSort2(l):
                 lindex += 1
                 sindex += 1
 
+
 def quickSort(l, first, last):
     if first >= last:
         return
-    pivot = l[first]
-    leftmark = first + 1
-    rightmark = last
-    done = False
-    while not done:
-        while(leftmark <= rightmark and l[leftmark] <= pivot):
-            leftmark += 1
-        while(rightmark >= leftmark and l[rightmark] >= pivot):
-            rightmark -= 1
-        if leftmark >= rightmark:
-            done = True
-            l[first], l[rightmark] = l[rightmark], l[first]
-        else:
-            l[leftmark], l[rightmark] = l[rightmark], l[leftmark]
+    split = partition(l, first, last)
+    quickSort(l, first, split - 1)
+    quickSort(l, split + 1, last)
 
-    quickSort(l, first, rightmark - 1)
-    quickSort(l, rightmark + 1, last)
 
-l = [7, 2, 1, 5, 3, 5, 4, 9]
+def partition(l, first, last):
+    pivotval = l[first]
+    k = first + 1
+    for i in range(first + 1, last + 1):
+        if l[i] <= pivotval:
+            l[i], l[k] = l[k], l[i]
+            k += 1
+    l[first], l[k - 1] = l[k - 1], l[first]
+    return k - 1
+
+
+l = [5, 5, 11, 14, 5, 3, 5, 4, 12, 5]
 mergeSort2(l)
 print(l)

@@ -221,5 +221,167 @@ def majCand(arr):
             count = 1
     return arr[mindex]
 
-s = [1,2,3,5,1,3,1,1,2,1,5,1,1]
-print(majCand(s))
+
+#Merge k sorted lists into one sorted list
+
+class ListNode:
+    def __init__(self, val, index, next):
+        self.val = val
+        self.index = index
+        self.next = next
+
+
+def form_heap(arr):
+    i = (len(arr) - 1) // 2
+    while i >= 0:
+        sift_down(arr, i)
+        i -= 1
+
+def sift_down(arr, i):
+    while 2*i + 1 < len(arr):
+        if 2*i + 1 == len(arr) - 1 or arr[2*i + 1].val < arr[2*i + 2].val:
+            j = 2*i + 1
+        else:
+            j = 2*i + 2
+        if arr[i].val > arr[j].val:
+            arr[i], arr[j] = arr[j], arr[i]
+        i = j
+
+def mergeSorted(l):
+    headarr = []
+    size = len(l)*len(l[0])
+    for i in range(len(l)):
+        headarr.append(ListNode(l[i][0], i, 1))
+    form_heap(headarr)
+    sorted = [None]*size
+    for i in range(0, size):
+        sorted[i] = headarr[0].val
+        if headarr[0].next < len(l[0]):
+            headarr[0].val = l[headarr[0].index][headarr[0].next]
+            headarr[0].next += 1
+        else:
+            headarr[0] = headarr[len(headarr) - 1]
+            del headarr[len(headarr) - 1]
+        sift_down(headarr, 0)
+    return sorted
+
+#4-15: Find kth largest element among n keys
+def partition(l, first, last):
+    pivot = first
+    k = first + 1
+    for i in range(first + 1, last + 1):
+        if l[i] <= l[pivot]:
+            l[i], l[k] = l[k], l[i]
+            k += 1
+    l[pivot], l[k - 1] = l[k - 1], l[pivot]
+    return k - 1
+
+
+def quickSelect(arr, k):
+    if k < 1 or k > len(arr):
+        return None
+    return _quickSelect(arr, 0, len(arr) - 1, k - 1)
+
+def _quickSelect(arr, start, end, k):
+    if start >= end:
+        return arr[start]
+    splitpoint = partition(l, start, end)
+    if k == splitpoint:
+        return arr[k]
+    if k < splitpoint:
+        return _quickSelect(arr, start, splitpoint - 1, k)
+    if k > splitpoint:
+        return _quickSelect(arr, splitpoint + 1, end, k)
+
+def sortPairsPartition(arr):
+
+    i = 0
+    j = 0
+    new = [None] * len(arr)
+    while(i < len(arr)):
+        if arr[i][1] == 'r':
+            new[j] = arr[i]
+            j += 1
+        i += 1
+    i = 0
+    while(i < len(arr)):
+        if arr[i][1] == 'b':
+            new[j] = arr[i]
+            j += 1
+        i += 1
+    i = 0
+    while (i < len(arr)):
+        if arr[i][1] == 'y':
+            new[j] = arr[i]
+            j += 1
+        i += 1
+    return new
+
+#4-20: efficient algorithm to arrange n keys so that all negative keys precede all non-negative keys
+def negativepart(l):
+    pivotval = 0
+    k = 1
+    for i in range(1, len(l)):
+        if l[i] <= pivotval:
+            l[i], l[k] = l[k], l[i]
+            k += 1
+    l[0], l[k - 1] = l[k - 1], l[0]
+
+
+def circularPoint(arr):
+    start = 0
+    end = len(arr) - 1
+    if arr[0] < arr[end]:
+        return 0
+    while (start <= end):
+        midpoint = (start + end) // 2
+        if arr[midpoint] < arr[end]:
+            if arr[midpoint - 1] > arr[midpoint]:
+                return midpoint
+            else:
+                end = midpoint - 1
+        elif arr[midpoint] >= end:
+            start = midpoint + 1
+    return None
+
+
+def indexEq(arr):
+    start = 0
+    end = len(arr) - 1
+    while start <= end:
+        midpoint = (start + end)//2
+        if arr[midpoint] < midpoint:
+            start = midpoint + 1
+        elif arr[midpoint] > midpoint:
+            end = midpoint - 1
+        else:
+            return True
+    return False
+
+
+def notPresent(arr):
+    n = len(arr) - 1
+    if arr[0] > 1:
+        return 1
+    elif arr[n-1] == n:
+        return n + 1
+    else:
+        return findGap(arr, 0, len(arr) - 1)
+
+def findGap(arr, first, last):
+    if last == first + 1:
+        return arr[first] + 1
+    else:
+        mid = (first + last)//2
+        if arr[mid]- arr[first] == mid - first:
+            return findGap(arr, mid, last)
+        else:
+            return findGap(arr, first, mid)
+
+l = [1,2,4,8,9,10]
+print(notPresent(l))
+
+
+
+
+
