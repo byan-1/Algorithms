@@ -1,4 +1,5 @@
 from collections import deque
+import heapq
 import pythonds
 #add_edge: add edge between 2 vertices
 #remove_edge: remove edge between 2 vertices
@@ -193,17 +194,16 @@ def checkBipartite(graph, root):
 
 
 def strongCons(graph, root):
-    def _DFS(graph, node):
-        print(node.key, end = ' ')
-        node.visited = 1
-        for key in node.neighbours:
-            if graph.nodeDict[key].visited == 0:
-                _DFS(graph, graph.nodeDict[key])
-
     graph.resetVisited()
-    _DFS(graph, graph.nodeDict[root])
+    _DFScons(graph, graph.nodeDict[root])
     print('\n')
 
+def _DFScons(graph, node):
+    node.visited = 1
+    for key in node.neighbours:
+        if graph.nodeDict[key].visited == 0:
+            _DFS(graph, graph.nodeDict[key])
+    node.processed = 1
 
 def listConv(graph, root):
     l = []
@@ -272,6 +272,35 @@ class UnionFind:
             k += 1
 
 
+def dijkstra(graph, source ,dest):
+    distance = []
+    li = []
+    parent = []
+    for i in range(len(graph.nodeDict)):
+        distance[i] = 1000
+        parent[i] = None
+    distance[source] = 0
+    heapq.heappush(li, (0, l[source]))
+
+    while len(li) > 0:
+        cur = heapq.heappop(li)
+        cur = cur[1]
+        for nkey in cur.neighbours:
+            candidate = distance[cur.key] + cur.neighbours[nkey]
+            if candidate < distance[nkey]:
+                distance[nkey] = candidate
+                parent[nkey] = cur.key
+            heapq.heappush(li, (distance[nkey],graph.nodeDict[nkey]))
+
+    shortest_path = []
+    end = dest
+    while end is not None:
+        shortest_path.append(end)
+        end = parent[end]
+    shortest_path.reverse()
+    return shortest_path, distance[dest]
+
+
 gr = Graph()
 gr.addNode('a')
 gr.addNode('b')
@@ -326,7 +355,7 @@ gr.addEdge('d', 'f')
 gr.addEdge('e', 'g')
 gr.addEdge('f', 'g')
 gr.addEdge('b', 'h')
-# gr.addEdge('h', 'a')
+gr.addEdge('h', 'a')
 
 
 w = Graph()
@@ -349,4 +378,4 @@ w.addEdge('E','F',4)
 w.addEdge('E','G', 1)
 w.addEdge('F','G',1)
 l=listConv(w,'A')
-print(kruskal(l, 7))
+print(dijkstra(l, 0, 6))
