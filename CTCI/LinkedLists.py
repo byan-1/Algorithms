@@ -36,25 +36,26 @@ def printlist(head):
     print('None')
 
 def removedups(head):
-    seen = []
-    dup = []
+    seen = {}
+    prev = None
     cur = head
     while cur != None:
         if cur.data not in seen:
-            seen.append(cur.data)
+            seen[cur.data] = 1
+            prev = cur
         else:
-            dup.append(cur.data)
+            prev.next = cur.next
         cur = cur.next
-    for elem in dup:
-        head = deleteNode(head, elem)
     return head
 
 ll = Node(5)
 for i in range(10):
     ll.insertTail(i)
 ll.insertTail(11)
+ll = insertHead(ll,2)
 ll = insertHead(ll, 10)
 ll = insertHead(ll, 11)
+ll = insertHead(ll,2)
 ll = deleteNode(ll, 9)
 ll = removedups(ll)
 printlist(ll)
