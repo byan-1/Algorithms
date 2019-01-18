@@ -241,4 +241,3 @@ def stringrotation(s1,s2):
         return False
     s1s1 = s1 + s1
     return s2 in s1s1
-
