@@ -12,6 +12,7 @@
 class Queue:
     def __init__(self):
         self.list = []
+
     def enqueue(self, val):
         self.list.append(val)
     def dequeue(self):
